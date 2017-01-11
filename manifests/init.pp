@@ -87,7 +87,7 @@ class opendaylight (
       }
     }
     ubuntu: {
-      if $::operatingsystemmajrelease != '14.04' {
+      if $::operatingsystemmajrelease != '14.04' and $::operatingsystemmajrelease != '16.04' {
         # Only tested on 14.04
         fail("Unsupported OS: ${::operatingsystem} ${::operatingsystemmajrelease}")
       }
