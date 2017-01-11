@@ -82,9 +82,9 @@ class opendaylight::config {
   # Requires at least CentOS 7.3 for RHEL/CentOS systems
   if ('odl-netvirt-openstack' in $opendaylight::features) {
     if $opendaylight::security_group_mode == 'stateful' {
-      if $opendaylight::stateful_unsupported {
-        warning("Stateful is unsupported in ${::operatingsystemrelease} setting to 'learn'")
-        $sg_mode = 'learn'
+      if defined('$opendaylight::stateful_unsupported') and $opendaylight::stateful_unsupported {
+          warning("Stateful is unsupported in ${::operatingsystemrelease} setting to 'learn'")
+          $sg_mode = 'learn'
       } else {
         $sg_mode = 'stateful'
       }
@@ -92,16 +92,18 @@ class opendaylight::config {
       $sg_mode = $opendaylight::security_group_mode
     }
 
-    $odl_datastore = [ '/opt/opendaylight/etc/opendaylight', '/opt/opendaylight/etc/opendaylight/datastore',
-                       '/opt/opendaylight/etc/opendaylight/datastore/initial',
-                       '/opt/opendaylight/etc/opendaylight/datastore/initial/config',
-                     ]
+    $odl_datastore = [
+      '/opt/opendaylight/etc/opendaylight',
+      '/opt/opendaylight/etc/opendaylight/datastore',
+      '/opt/opendaylight/etc/opendaylight/datastore/initial',
+      '/opt/opendaylight/etc/opendaylight/datastore/initial/config',
+    ]
 
     file { $odl_datastore:
-      ensure  =>  directory,
-      mode    =>  0755,
-      owner   => 'odl',
-      group   => 'odl',
+      ensure => directory,
+      mode   => '0755',
+      owner  => 'odl',
+      group  => 'odl',
     }
     ->
     file { 'netvirt-aclservice-config.xml':

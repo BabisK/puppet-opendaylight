@@ -4,7 +4,8 @@
 #
 # === Parameters
 # [*default_features*]
-#   Features that should normally be installed by default, but can be overridden.
+#   Features that should normally be installed by default, but can be
+#   overridden.
 # [*extra_features*]
 #   List of features to install in addition to the default ones.
 # [*odl_rest_port *]
@@ -12,19 +13,24 @@
 # [*odl_bind_ip *]
 #   IP for ODL northbound REST interface to bind to.
 # [*install_method *]
-#   How to install OpenDaylight. Current options are "rpm" and "tarball", default is RPM.
+#   How to install OpenDaylight. Current options are "rpm" and "tarball",
+#   default is RPM.
 # [*rpm_repo*]
-#   OpenDaylight CentOS CBS repo to install RPM from (opendaylight-4-testing, opendaylight-40-release, ...).
+#   OpenDaylight CentOS CBS repo to install RPM from (opendaylight-4-testing,
+#   opendaylight-40-release, ...).
 # [*tarball_url*]
 #   If installing from a tarball, use this one. Defaults to latest ODL.
 # [*unitfile_url*]
-#   OpenDaylight .service file to use for tarball installs. Defaults to one used by ODL RPM.
+#   OpenDaylight .service file to use for tarball installs. Defaults to one
+#   used by ODL RPM.
 # [*enable_l3*]
-#   Enable or disable ODL OVSDB ML2 L3 forwarding. Valid: true, false, 'yes' and 'no'.
+#   Enable or disable ODL OVSDB ML2 L3 forwarding. Valid: true, false, 'yes'
+#   and 'no'.
 # [*log_levels*]
 #   Custom OpenDaylight logger verbosity configuration (TRACE, DEBUG, INFO, WARN, ERROR).
 # [*enable_ha*]
-#   Enable or disable ODL OVSDB HA Clustering. Valid: true or false. Default: false.
+#   Enable or disable ODL OVSDB HA Clustering. Valid: true or false.
+#   Default: false.
 # [*ha_node_ips*]
 #   Array of IPs for each node in the HA cluster.
 # [*ha_node_index*]
@@ -66,10 +72,12 @@ class opendaylight (
       if $::operatingsystemmajrelease != '7' {
         # RHEL/CentOS versions < 7 not supported as they lack systemd
         fail("Unsupported OS: ${::operatingsystem} ${::operatingsystemmajrelease}")
-      } elsif (versioncmp($::operatingsystemrelease, '7.3') < 0) {
-        # Versions < 7.3 do not support stateful security groups
-        $stateful_unsupported = true
-      }
+      } elsif defined('$::operatingsystemrelease') {
+          if (versioncmp($::operatingsystemrelease, '7.3') < 0) {
+            # Versions < 7.3 do not support stateful security groups
+            $stateful_unsupported = true
+          }
+        }
     }
     fedora: {
       # Fedora distros < 22 are EOL as of 2015-12-01
