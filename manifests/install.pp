@@ -44,14 +44,14 @@ class opendaylight::install {
   }
   elsif $opendaylight::install_method == 'tarball' {
     # Install Java 7
-    $distribution = $::osfamily ? {
-      'RedHat' => 'jdk',
-      'Debian' => 'jdk8',
-    }
-    class { 'java':
-      # NB: ODL is currently in the process of moving to Java 8
-      distribution => $distribution,
-    }
+    #$distribution = $::osfamily ? {
+    #  'RedHat' => 'jdk',
+    #  'Debian' => 'jdk8',
+    #}
+    #class { 'java':
+    #  # NB: ODL is currently in the process of moving to Java 8
+    #  distribution => $distribution,
+    #}
 
     # Create and configure the odl user
     user { 'odl':
